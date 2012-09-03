@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello, Android! I am a string resource!</string>
+    <string name="app_name">Flower Identification</string>
+    <string name="original_img">original.png</string>
+    <string name="mask_img">mask.png</string>
+    <string name="test_img">test.png</string>
+    <string name="item_loadFile">Load file</string>
+    <string name="server_host">fis.tugdev.net</string>
+</resources>

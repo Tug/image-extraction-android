@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" android:id="@+id/layout" android:orientation="vertical">
+    <LinearLayout android:orientation="horizontal" android:id="@+id/linearLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:layout_height="match_parent" android:orientation="vertical" android:id="@+id/linearLayout2" android:layout_width="wrap_content">
+            <Button android:id="@+id/moveButton" android:text="Move" android:layout_width="match_parent" android:layout_height="40dip"></Button>
+            <Button android:text="Rectangle" android:layout_width="wrap_content" android:id="@+id/rectangleButton" android:layout_height="40dip"></Button>
+            <Button android:text="Backgrnd" android:layout_width="match_parent" android:id="@+id/backgroundButton" android:layout_height="40dip"></Button>
+            <Button android:text="Foregrnd" android:layout_width="match_parent" android:id="@+id/foregroundButton" android:layout_height="40dip"></Button>
+            <Button android:text="Undo" android:layout_width="match_parent" android:layout_height="40dip" android:id="@+id/undoButton"></Button>
+            <Button android:layout_width="match_parent" android:layout_height="40dip" android:text="Reset" android:id="@+id/resetButton"></Button>
+            <ProgressBar android:id="@+id/progressBar1" android:layout_gravity="center_horizontal" android:layout_height="30dip" android:layout_width="30dip" android:visibility="invisible"></ProgressBar>
+        </LinearLayout>
+        <FrameLayout android:layout_height="fill_parent" android:layout_weight="1" android:id="@+id/preview" android:layout_width="fill_parent"></FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>

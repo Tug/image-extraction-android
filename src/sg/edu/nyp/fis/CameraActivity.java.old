@@ -1,0 +1,137 @@
+package sg.edu.nyp.fis.old;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.hardware.Camera;
+import android.hardware.Camera.PictureCallback;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
+
+public class CameraActivity extends Activity {
+	
+	private Preview preview;
+	private Intent nextActivity;
+	private boolean firstTouch;
+	private int PICK_REQUEST_CODE = 1;
+	
+	private PictureCallback jpegCallback = new PictureCallback() {
+		public void onPictureTaken(byte[] data, Camera camera) {
+			FileOutputStream outStream = null;
+			try {
+				String filename = CameraActivity.this.getString(R.string.img_path);
+				outStream = openFileOutput(filename, Context.MODE_PRIVATE);
+				//outStream = new FileOutputStream(filename);
+				FileOutputStream outStream2 = new FileOutputStream("/sdcard/test3.jpg");
+				outStream2.write(data);
+				outStream2.close();
+				
+				outStream.write(data);
+				outStream.close();
+				Log.d("Camera", "onPictureTaken - wrote bytes: " + data.length);
+				nextActivity(filename);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				
+			}
+			Log.d("Camera", "onPictureTaken - jpeg");
+			
+		}
+	};
+	
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+    	super.onCreate(savedInstanceState);
+    	System.out.println("Camera onCreateeeee");
+
+    	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
+		setContentView(R.layout.camera);
+		
+		preview = new Preview(this);
+		FrameLayout frame = (FrameLayout) findViewById(R.id.cameraFrameLayout);
+		frame.addView(preview);
+		
+		this.firstTouch = true;
+		frame.setOnTouchListener(new View.OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
+				if(firstTouch) {
+					firstTouch = false;
+					preview.camera.takePicture(null, null, jpegCallback);
+				}
+				return true;
+			}
+		});
+		
+		this.nextActivity = new Intent(this, DrawerActivity.class);
+
+		Log.d("Camera", "onCreate'd");
+    }
+
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.camera_menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+        case R.id.loadFile:
+            openFileSelector();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    private void openFileSelector() {
+    	Intent intent = new Intent();
+    	intent.setAction(Intent.ACTION_PICK);
+    	Uri startDir = Uri.fromFile(new File("/sdcard"));
+    	intent.setDataAndType(startDir, "vnd.android.cursor.dir/lysesoft.andexplorer.file");
+    	startActivityForResult(intent, PICK_REQUEST_CODE);
+    }
+    
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == PICK_REQUEST_CODE) {
+            if(resultCode == RESULT_OK) {
+            	Uri selectedFile = data.getData(); 
+            	nextActivity(selectedFile.toString());
+            }
+        }
+        else if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
+    	    String result = data.toURI();
+    	    System.out.println(result);
+    	  }
+    }
+   
+	public void nextActivity(String filename) {
+		nextActivity.putExtra("picture_file", filename);
+    	startActivity(nextActivity);
+	}
+	
+}

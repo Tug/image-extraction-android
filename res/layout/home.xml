@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent" android:orientation="vertical" android:id="@+id/homeLayout">
+    <LinearLayout android:layout_height="wrap_content" android:id="@+id/linearLayout1" android:layout_width="match_parent">
+        <TextView android:id="@+id/textView1" android:layout_height="wrap_content" android:text="Welcome to the Flower Identification Application. This application will try to identify a flower from a photo." android:layout_width="wrap_content" android:layout_margin="20dip"></TextView>
+    </LinearLayout>
+    <Button android:id="@+id/takePictureButton" android:layout_height="wrap_content" android:layout_width="match_parent" android:text="Take picture"></Button>
+    <Button android:id="@+id/loadPictureButton" android:layout_height="wrap_content" android:layout_width="match_parent" android:text="Load picture"></Button>
+    <Button android:id="@+id/quickTestButton" android:layout_height="wrap_content" android:text="Quick test" android:layout_width="match_parent"></Button>
+</LinearLayout>
